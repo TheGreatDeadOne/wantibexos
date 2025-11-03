@@ -2,37 +2,38 @@
 
 subroutine integralJ0pot(rmax,gperp,res)
 
-	implicit none
-	real :: rmax, h, res
-	integer :: i
-	integer,parameter :: n=100
-	real :: gperp
-	real :: j0
-	real,dimension(n) :: r , f
-	real,parameter :: eta=1E-04
-	
-	do i=1,n
-	
-	 r(i)=((i-1d0)/(n-1d0))*rmax+eta
-	 
-	 call caljy0(r(i)*gperp, j0, 0 )
-	   
-	 f(i)= r(i)*j0*log(r(i))
-	 
-	
-	end do
+    implicit none
+    real(kind=8) :: rmax, h, res
+    integer :: i
+    integer,parameter :: n=100
+    real(kind=8) :: gperp
+    real(kind=8) :: j0
+    real(kind=8),dimension(n) :: r , f
+    real(kind=8),parameter :: eta=1.0D-4 
 
-	h = r(2)-r(1)
-	res = 0.0
+    do i=1,n
 
-	do i=1,n-1
-	
-		res= res + (h/2.0)*(f(i)+f(i+1))
-	
-	end do
+     r(i)=((i-1.0D0)/(n-1.0D0))*rmax+eta
+
+     call caljy0(r(i)*gperp, j0, 0 )
+
+     f(i)= r(i)*j0*log(r(i))
+
+
+    end do
+
+    h = r(2)-r(1)
+    res = 0.0
+
+    do i=1,n-1
+
+        res= res + (h/2.0D0)*(f(i)+f(i+1)) ! CORRIGIDO: 2.0D0
+
+    end do
 
 
 end subroutine
+
 
 
 
